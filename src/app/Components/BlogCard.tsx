@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { urlFor } from "@/sanity/lib/image";
+import { urlForImage } from "@/sanity/lib/image";
 
 export default function BlogCard({ post }: { post: Post }) {
   return (
@@ -12,7 +12,7 @@ export default function BlogCard({ post }: { post: Post }) {
     >
       <div className="relative max-h-76 flex-1">
         <Image
-          src={urlFor(post.image).url() || "/fallback-image.jpg"} // Ensure URL string
+          src={urlForImage(post.image)} // Ensure URL string
           alt={post.title || "Blog image"} // Use a meaningful alt text
           fill
           className="object-cover rounded-t"

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { client } from "../../../sanity/lib/client";
-import { urlFor } from "../../../sanity/lib/image";
+import { urlForImage } from "../../../sanity/lib/image";
 import { PortableText } from "next-sanity";
 
 export const revalidate = 5;
@@ -41,8 +41,8 @@ export default async function Page({ params }: { params: any }) {
         </h1>
 
         <Image
-          src={urlFor(post.image).url() || "/fallback-image.jpg"}
-          alt={post.title || "Blog image"}
+          src={urlForImage(post.image)}
+          alt={"Blog image"}
           width={450}
           height={450}
           className="rounded"
