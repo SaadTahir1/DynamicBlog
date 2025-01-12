@@ -3,15 +3,18 @@
 import { useState, useEffect } from "react";
 
 const Comment = () => {
-  const [comment, setComment] = useState(""); // For new comment input
-  const [comments, setComments] = useState([]); // For storing all comments
+  const [comment, setComment] = useState<string>(""); // For new comment input
+  const [comments, setComments] = useState<string[]>([]); // For storing all comments
 
   // Load comments from localStorage on the first render
   useEffect(() => {
     try {
       const storedComments = localStorage.getItem("comments");
       if (storedComments) {
-        setComments(JSON.parse(storedComments)); // Load comments from localStorage
+        const parsedComments = JSON.parse(storedComments);
+        if (Array.isArray(parsedComments)) {
+          setComments(parsedComments); // Load comments from localStorage if valid
+        }
       }
     } catch (error) {
       console.error("Failed to load comments from localStorage:", error);
@@ -28,7 +31,7 @@ const Comment = () => {
   }, [comments]); // Dependency ensures it runs whenever `comments` changes
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (comment.trim()) {
       setComments((prevComments) => [comment, ...prevComments]); // Add new comment
@@ -44,7 +47,7 @@ const Comment = () => {
       <form onSubmit={handleSubmit} className="mb-4">
         <textarea
           value={comment}
-          onChange={(e) => setComment(e.target.value)}
+          onChange={(e: any) => setComment(e.target.value)}
           className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Give your thoughts..."
         />
